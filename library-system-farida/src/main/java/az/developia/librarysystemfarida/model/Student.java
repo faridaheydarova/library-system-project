@@ -1,15 +1,19 @@
 package az.developia.librarysystemfarida.model;
 
-import javax.persistence.Entity;
+import javax.persistence.Entity;  
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
 
 @Entity
+@Table(name="students")
 public class Student {
 @Id
 @GeneratedValue(strategy=GenerationType.AUTO.IDENTITY)
 private Integer id;
+
 private String name;
 private String surname;
 public Integer getId() {
