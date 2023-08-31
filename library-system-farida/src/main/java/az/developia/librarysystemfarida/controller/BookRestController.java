@@ -40,10 +40,9 @@ public class BookRestController {
 		return bookRepository.findAll();
 	}
 
-	@PostMapping
-	public Book addBook(@Valid  @RequestBody Book book, @PathVariable Integer userId,
-			BindingResult result) {
-		if (result.hasErrors()) {
+	@PostMapping(path = "save")
+	public Book addBook(@Valid @RequestBody Book book, BindingResult result) {
+		if(result.hasErrors()) {
 			throw new MyRuntimeException(result);
 		}
 		Optional<Book> bookOptional = bookRepository.findByName(book.getName());
@@ -51,12 +50,9 @@ public class BookRestController {
 			book.setName("");
 			return book;
 		} else {
-			 book.setUserId(userId);
-			 Book savedBook = bookRepository.save(book);
-			 return savedBook;
-			
-		}
-	
+			Book b = bookRepository.save(book);
+}
+		return book;
 	}
 
 	@GetMapping(path = "/{id}")
