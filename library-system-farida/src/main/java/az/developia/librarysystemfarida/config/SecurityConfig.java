@@ -3,6 +3,7 @@ import javax.sql.DataSource;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.HttpMethod;
@@ -10,9 +11,13 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	
 	
 	@Autowired
 	private DataSource dataSource;
@@ -27,18 +32,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers(HttpMethod.POST, "/students/**").permitAll()
 	
 		.antMatchers(HttpMethod.GET, "/students/**").permitAll()
+		 
 		.antMatchers(HttpMethod.GET, "/books/**").permitAll()
 		.antMatchers(HttpMethod.POST, "/books/**").permitAll()
+		
+		//.antMatchers(HttpMethod.POST, "/{id}/books").permitAll()
 		
 		
 		
 		.anyRequest().authenticated().and().httpBasic(); 
 		http.headers().frameOptions().disable();
 	}
+
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.jdbcAuthentication().dataSource(dataSource);
+	
+		
 
+}  
 }
-}
+
+	
+	

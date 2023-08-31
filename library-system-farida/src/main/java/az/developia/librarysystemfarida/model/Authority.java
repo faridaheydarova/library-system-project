@@ -18,17 +18,22 @@ public class Authority {
 		return id;
 	}
 	public void setId(Integer id) {
+		this.id = id;
 	}
 	public String getUsername() {
 		return username;
 	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
+	
 	public String getAuthority() {
 		return authority;
 	}
-	public void setAuthority(String authority) {
-		this.authority = authority;
+	public void setId(Authority authority2) {
+		// TODO Auto-generated method stub
+		
 	}
+	public void setAuthority(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

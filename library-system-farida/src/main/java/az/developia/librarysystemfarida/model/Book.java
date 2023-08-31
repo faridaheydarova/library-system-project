@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -15,9 +17,12 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name="books")
 public class Book {
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	
 	@NotEmpty(message="Boş qoymaq olmaz")
 	@Size(min=2,message="Minimum 2 simvol yazmaq lazımdır")
@@ -38,13 +43,24 @@ public class Book {
 	@Max(value=10000,message="Maksimum 10000 yazmaq olar")
 	private Integer pageCount;
 	
-	private String librarian;
+
+	   @ManyToOne
+	    @JoinColumn(name = "authority")
+	    private Authority authority;
 	
-	public String getLibrarian() {
-		return librarian;
+	 private Integer userId;
+
+	public Integer getUserId() {
+		return userId;
 	}
-	public void setLibrarian(String librarian) {
-		this.librarian = librarian;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+	public Authority getAuthority() {
+		return authority;
+	}
+	public void setAuthority(Authority authority) {
+		this.authority = authority;
 	}
 	public Integer getId() {
 		return id;
@@ -70,12 +86,7 @@ public class Book {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-	public String getAuthor() {
-		return author;
-	}
-	public void setAuthor(String author) {
-		this.author = author;
-	}
+	
 	public Integer getPageCount() {
 		return pageCount;
 	}
