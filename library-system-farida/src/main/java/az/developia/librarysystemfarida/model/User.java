@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name="users")
 
@@ -18,6 +21,9 @@ private String username;
 private String email;
 private String password;
 private Boolean enabled;
+
+
+
 public Integer getId() {
 	return id;
 }

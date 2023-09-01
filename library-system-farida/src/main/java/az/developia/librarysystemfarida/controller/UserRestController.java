@@ -1,6 +1,7 @@
 package az.developia.librarysystemfarida.controller;
 
 import java.util.List;
+
 import java.util.Map;
 import java.util.Optional;
 
@@ -15,12 +16,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import az.developia.librarysystemfarida.model.Authority;
 import az.developia.librarysystemfarida.model.Book;
 import az.developia.librarysystemfarida.model.User;
 import az.developia.librarysystemfarida.repository.AuthorityRepository;
 import az.developia.librarysystemfarida.repository.BookRepository;
 import az.developia.librarysystemfarida.repository.UserRepository;
 import az.developia.librarysystemfarida.service.UserService;
+
 
 @RestController
 @RequestMapping(path = "/users")
@@ -35,26 +39,31 @@ public class UserRestController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private AuthorityRepository authorityRepository;
 
 	@PostMapping
 	public User addUser(@RequestBody User user) {
 		{
-			Optional<User> userOptional = userRepository.findById(user.getId());
+			Optional<User> userOptional = userRepository.findByUsername(user.getUsername());
+
 			if (userOptional.isPresent()) {
 				user.setUsername("");
+				return user;
 
 			} else {
 				user.setPassword("{noop}" + user.getPassword());
 				user.setEnabled(true);
-				User addUser = userRepository.save(user);
-				/*
-				 * Authority authority=new Authority();
-				 * authority.setUsername(user.getUsername());
-				 * authority.setAuthority("librarian"); authorityRepository.save(authority);
-				 */
-
+				User savedUser = userRepository.save(user);
+				
+				Authority authority=new Authority();
+				authority.setUsername(user.getUsername());
+				authority.setAuthority("librarian");
+				authorityRepository.save(authority);
+				return savedUser;
 			}
-			return user;
+			
 		}
 
 	}
@@ -80,6 +89,7 @@ public class UserRestController {
 			return new ResponseEntity<>("İstifadəçi adı və ya kod yanlışdır!", HttpStatus.UNAUTHORIZED);
 		}
 	}
+
 
 	@GetMapping("/{userId}/books")
 	public ResponseEntity<List<Book>> getUserBooks(@PathVariable Integer userId) {
