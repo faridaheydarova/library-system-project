@@ -35,7 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 
 		.antMatchers(HttpMethod.GET, "/books/**").permitAll()
 		.antMatchers(HttpMethod.POST, "/books/**").permitAll()
-		
+		.antMatchers(HttpMethod.DELETE, "/books/**").permitAll()
+		.antMatchers(HttpMethod.PUT, "/books/**").permitAll()
 		
 		
 		
