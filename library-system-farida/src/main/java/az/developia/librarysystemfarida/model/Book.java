@@ -18,6 +18,10 @@ import javax.validation.constraints.Size;
 @Table(name="books")
 public class Book {
 	
+	 public Book() {
+	        // Varsayılan yapılandırıcı
+	    }
+	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +53,10 @@ public class Book {
 	    private Authority authority;
 	
 	 private Integer userId;
+	 
+	 public Book(String description) {
+	        this.description = description;
+	    }
 
 	public Integer getUserId() {
 		return userId;
@@ -92,6 +100,11 @@ public class Book {
 	}
 	public void setPageCount(Integer pageCount) {
 		this.pageCount = pageCount;
+	}
+
+	public String getBook() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

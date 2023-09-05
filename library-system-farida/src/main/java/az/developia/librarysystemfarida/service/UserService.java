@@ -36,7 +36,7 @@ public class UserService {
 	            User user = userOptional.get();
 	            return user.getPassword().equals(password);
 	        } else {
-	            // Kullanıcı bulunamadı, uygun bir işlem yapabilirsiniz.
+	          
 	            return false;
 	        }
 	    }

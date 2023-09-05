@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -37,8 +38,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers(HttpMethod.POST, "/books/**").permitAll()
 		.antMatchers(HttpMethod.DELETE, "/books/**").permitAll()
 		.antMatchers(HttpMethod.PUT, "/books/**").permitAll()
-		
-		
 		
 		.anyRequest().authenticated().and().httpBasic(); 
 		http.headers().frameOptions().disable();

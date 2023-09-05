@@ -1,6 +1,7 @@
 package az.developia.librarysystemfarida.controller;
 
-import java.util.List; 
+import java.util.List;  
+
 
 
 import java.util.Optional;
@@ -20,14 +21,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import az.developia.librarysystemfarida.exception.MyRuntimeException;
 
 import az.developia.librarysystemfarida.model.Book;
-
+import az.developia.librarysystemfarida.model.SearchModel;
 import az.developia.librarysystemfarida.repository.BookRepository;
+import az.developia.librarysystemfarida.service.BookService;
 
 @RestController
 @RequestMapping(path = "/books")
@@ -36,6 +39,9 @@ public class BookRestController {
 
 	@Autowired
 	private BookRepository bookRepository;
+	
+	
+	private final BookService bookService;
 	
 	@GetMapping
 	public List<Book> findAll() {
@@ -85,5 +91,34 @@ public class BookRestController {
         
         return ResponseEntity.ok(book);
     }
+	
 
-}
+	    
+
+	    @Autowired
+	    public BookRestController(BookService bookService) {
+	        this.bookService = bookService;
+	    }/*
+
+	    @GetMapping("/books-search?book=")
+	    public ResponseEntity<Optional<Book>> bookSearch(@RequestParam("book") String book) {
+	        Optional<Book> findBook = bookService.bookSearch(book);
+	        return ResponseEntity.ok(findBook);
+	    }*/
+	
+	
+	@PostMapping(path="/search")
+	public List<Book> findAllSearch(@RequestBody SearchModel search) {
+		
+		return bookRepository.findAllSearchAllFields(search.getSearch());
+	}
+	@PostMapping(path="/search-find-partial")
+	public List<Book> findAllSearchFindPartial(@RequestBody SearchModel search ) {
+		//return bookDAO.findAllSearch(search.getSearch());
+		//return bookDAO.findAllSearchAllFields(search.getSearch());
+		return bookRepository.findAllSearchAllFieldsFindPartial(search.getSearch(),search.getBegin(),search.getLength());
+	}
+	}
+
+
+
