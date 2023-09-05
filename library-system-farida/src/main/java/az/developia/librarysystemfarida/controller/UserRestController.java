@@ -46,7 +46,7 @@ public class UserRestController {
 
 	@PostMapping
 	public User addUser(@RequestBody User user) {
-		{
+		
 			Optional<User> userOptional = userRepository.findByUsername(user.getUsername());
 
 			if (userOptional.isPresent()) {
@@ -62,12 +62,13 @@ public class UserRestController {
 				authority.setUsername(user.getUsername());
 				authority.setAuthority("librarian");
 				authorityRepository.save(authority);
+				
 				return savedUser;
 			}
 			
 		}
 
-	}
+	
 
 	@GetMapping
 	public List<User> findAll() {

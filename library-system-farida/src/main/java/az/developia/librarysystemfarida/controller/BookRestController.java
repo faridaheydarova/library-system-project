@@ -98,13 +98,7 @@ public class BookRestController {
 	    @Autowired
 	    public BookRestController(BookService bookService) {
 	        this.bookService = bookService;
-	    }/*
-
-	    @GetMapping("/books-search?book=")
-	    public ResponseEntity<Optional<Book>> bookSearch(@RequestParam("book") String book) {
-	        Optional<Book> findBook = bookService.bookSearch(book);
-	        return ResponseEntity.ok(findBook);
-	    }*/
+	    }
 	
 	
 	@PostMapping(path="/search")
