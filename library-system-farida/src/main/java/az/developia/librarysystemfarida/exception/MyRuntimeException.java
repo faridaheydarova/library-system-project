@@ -20,4 +20,3 @@ public class MyRuntimeException extends RuntimeException {
 		this.result = result;
 	}
 }
-

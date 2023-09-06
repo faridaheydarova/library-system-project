@@ -95,7 +95,7 @@ public class UserRestController {
 
 	@GetMapping("/{userId}/books")
 	public ResponseEntity<List<Book>> getUserBooks(@PathVariable Integer userId) {
-		// userId'ye sahip kullanıcının eklediği kitapları alın
+		
 		Optional<Book> userBooks = bookRepository.findById(userId);
 		return new ResponseEntity<List<Book>>(HttpStatus.OK);
 	}
