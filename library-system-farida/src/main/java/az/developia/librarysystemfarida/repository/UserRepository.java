@@ -1,4 +1,4 @@
-package az.developia.librarysystemfarida.repository;
+/*package az.developia.librarysystemfarida.repository;
 
 
 
@@ -22,3 +22,4 @@ Optional<User> findByUsername(String username);
 
 }
 
+*/

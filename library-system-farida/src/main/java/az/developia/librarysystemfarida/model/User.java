@@ -16,11 +16,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class User {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
+
 private Integer id;
 private String username;
 private String email;
 private String password;
-private Boolean enabled;
 
 
 
@@ -48,16 +48,31 @@ public String getPassword() {
 public void setPassword(String password) {
 	this.password = password;
 }
-public Boolean getEnabled() {
-	return enabled;
-}
-public void setEnabled(Boolean enabled) {
-	this.enabled = enabled;
-}
+
 public static String get(String username2) {
 	// TODO Auto-generated method stub
 	return null;
 }
+
+public User(Integer id, String username, String email, String password) {
+	super();
+	this.id = id;
+	this.username = username;
+	this.email = email;
+	this.password = password;
+}
+
+public User() {
+	
+}
+
+@Override
+public String toString() {
+	return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + "]";
+}
+
+
+
 
 
 }

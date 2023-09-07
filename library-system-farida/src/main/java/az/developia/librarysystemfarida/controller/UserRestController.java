@@ -1,4 +1,4 @@
-package az.developia.librarysystemfarida.controller;
+/*package az.developia.librarysystemfarida.controller;
 
 import java.util.List;
 
@@ -100,4 +100,4 @@ public class UserRestController {
 		return new ResponseEntity<List<Book>>(HttpStatus.OK);
 	}
 
-}
+}*/
