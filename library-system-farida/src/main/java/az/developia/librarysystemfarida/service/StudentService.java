@@ -17,3 +17,30 @@ public class StudentService {
 
 }
 */
+
+package az.developia.librarysystemfarida.service;
+
+import java.util.List;
+
+import az.developia.librarysystemfarida.dto.LoginDTO;
+import az.developia.librarysystemfarida.dto.StudentDTO;
+import az.developia.librarysystemfarida.model.Student;
+import az.developia.librarysystemfarida.response.LoginResponse;
+
+public interface StudentService {
+
+	String addStudent(StudentDTO studentDTO);
+
+	LoginResponse loginStudent(LoginDTO loginDTO);
+
+	List<Student> findAllByLibraian(String user);
+
+	List<Student> findAll();
+
+
+	boolean existsById(Integer id);
+
+	List<Student> findAllSearchAllFields(String search);
+
+	void deleteById(Integer id);
+}

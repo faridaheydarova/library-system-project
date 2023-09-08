@@ -32,5 +32,9 @@ public class Authority {
 	public void setAuthority(String authority) {
 		this.authority = authority;
 	}
+	public void save(Authority authority2) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

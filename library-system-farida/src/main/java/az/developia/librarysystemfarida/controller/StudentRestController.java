@@ -1,6 +1,6 @@
 package az.developia.librarysystemfarida.controller;
 
-import java.util.List;  
+import java.util.List;    
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -21,88 +21,89 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import az.developia.librarysystemfarida.dto.LoginDTO;
+import az.developia.librarysystemfarida.dto.StudentDTO;
+import az.developia.librarysystemfarida.dto.UserDTO;
 import az.developia.librarysystemfarida.exception.MyRuntimeException;
 import az.developia.librarysystemfarida.model.SearchModel;
 import az.developia.librarysystemfarida.model.Student;
+import az.developia.librarysystemfarida.repository.StudentRepo;
 
-import az.developia.librarysystemfarida.repository.StudentRepository;
-
+import az.developia.librarysystemfarida.response.LoginResponse;
+import az.developia.librarysystemfarida.service.StudentService;
+import az.developia.librarysystemfarida.service.UserService;
+ 
 
 @RestController
 @RequestMapping(path = "/students")
 @CrossOrigin(origins = "*")
 public class StudentRestController {
-
-	@Autowired
-	private StudentRepository studentRepository;
-	private String getUser;
-
-	/*@Autowired
-	private StudentService studentService;*/
-
 	
-	 
-	 
-	 @PostMapping
-	 @ResponseStatus(HttpStatus.CREATED) public Student save(@Valid @RequestBody Student student,
-			 BindingResult result){
-		 if(result.hasErrors()){
-				throw new MyRuntimeException(result);
-			}
-			String librarian=SecurityContextHolder.getContext().getAuthentication().getName();
-			student.setLibrarian(getUser);
-	  return studentRepository.save(student); 
-	  
-	 }
-	 
-
-	@GetMapping
-	public List<Student> findAll() {
-		return studentRepository.findAll();
+	
+	
+	@Autowired
+	private StudentService studentService;
+	
+	@Autowired
+	private StudentRepo studentRepo;
+	
+	@PostMapping(path = "/save")
+	public String saveStudent(@Valid @RequestBody StudentDTO studentDTO, BindingResult result){ 
+		if(result.hasErrors()) {
+			throw new MyRuntimeException(result);
+		}
+		String librarian=SecurityContextHolder.getContext().getAuthentication().getName();
+	
+		
+		studentDTO.setEmail(getUser());
+	String id = studentService.addStudent(studentDTO);
+	return id;
 	}
 
+	@PostMapping(path="/login")
+	public ResponseEntity<?> loginStudent(@RequestBody LoginDTO loginDTO){
+	LoginResponse loginResponse = studentService.loginStudent(loginDTO);
+	return ResponseEntity.ok(loginResponse);
 
-	/*@GetMapping("/{studentName}")
-	public Optional<Student> getUserStudent(@PathVariable String studentName) {
+	}
 	
-		Optional<Student> student = studentRepository.findByName(studentName);
-		return studentRepository.findByName(studentName);
-	}*/
+	@GetMapping(path="/{id}")
+	public List<Student> findAll(){
+		
+		return studentRepo.findAll();
+		
+	}
+	
+	private String getUser() {
+		return SecurityContextHolder.getContext().getAuthentication().getName();
+	}
 	
 	@PostMapping(path="/search")
 	public List<Student> findAllSearch(@RequestBody SearchModel search) {
 		
-		return studentRepository.findAllSearchAllFields(search.getSearch());
+		return studentService.findAllSearchAllFields(search.getSearch());
 	}
+	
 	
 	@DeleteMapping(path = "/{id}") 
 
 	public void deleteById(@PathVariable Integer id) {
 
-		studentRepository.deleteById(id);
+		studentService.deleteById(id);
 	}
 	
+
 	@PutMapping("/{id}")
     public ResponseEntity<Student> editStudent(@PathVariable Integer id, @RequestBody Student student) {
-        if (!studentRepository.existsById(id)) {
+        if (!studentService.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
         
         student.setId(id);
-        student = studentRepository.save(student);
+        student = studentRepo.save(student);
         
         return ResponseEntity.ok(student);
     }
 	
-
-
-	/*@PostMapping(path="save")
-	public ResponseEntity<String> registerStudent(@RequestBody Student student) {
-		try {
-			studentService.registerStudent(student);
-			return ResponseEntity.ok("Tələbə uğurla qeydiyyatdan keçdi.");
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Xəta baş verdi: " + e.getMessage());
-		}
-	}*/
 }
+
