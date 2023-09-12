@@ -32,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests()
+		//.antMatchers("/books/**").hasAuthority("LIBRARIAN") 
 		.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 		.antMatchers(HttpMethod.POST, "/users/**").permitAll()
 		.antMatchers(HttpMethod.GET, "/users/**").permitAll()

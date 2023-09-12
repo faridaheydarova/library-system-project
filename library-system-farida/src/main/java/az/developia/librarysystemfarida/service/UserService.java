@@ -44,8 +44,11 @@ public class UserService {
 
 
 
+import java.util.List; 
+
 import az.developia.librarysystemfarida.dto.LoginDTO;
 import az.developia.librarysystemfarida.dto.UserDTO;
+import az.developia.librarysystemfarida.model.User;
 import az.developia.librarysystemfarida.response.LoginResponse;
 
 public interface UserService {
@@ -53,5 +56,7 @@ public interface UserService {
 	 String addUser(UserDTO userDTO);
 
 	LoginResponse loginUser(LoginDTO loginDTO);
+
+	List<User> findAll();
 
 }

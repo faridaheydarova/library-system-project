@@ -1,5 +1,6 @@
 package az.developia.librarysystemfarida.service.impl;
 
+import java.util.List;
 import java.util.Optional;  
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +77,12 @@ public class UserIMPL  implements UserService{
 			return new LoginResponse( "Email düzgün daxil edin",  false);
 		}
 		
+	}
+
+	@Override
+	public List<User> findAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 
