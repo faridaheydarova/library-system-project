@@ -11,6 +11,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,7 +49,9 @@ public class BookRestController {
 	public List<Book> findAll() {
 		return bookRepository.findAll();
 	}
-
+	
+	
+	@PreAuthorize("hasRole('ROLE_LIBRARIAN')")
 	@PostMapping(path = "/save")
 	public Book addBook(@Valid @RequestBody Book book, BindingResult result) {
 		if(result.hasErrors()) {
@@ -55,12 +59,12 @@ public class BookRestController {
 		}
 		Optional<Book> bookOptional = bookRepository.findByName(book.getName());
 		if (bookOptional.isPresent()) {
-			book.setName("");
+			book.setName("Daha öncə bu adla kitab qeydə alınıb!");
 			return book;
 		} else {
-			Book b = bookRepository.save(book);
-}
-		return book;
+	
+			return bookRepository.save(book);
+		}
 	}
 
 	@GetMapping(path = "/{id}")
@@ -68,9 +72,9 @@ public class BookRestController {
 		return bookRepository.findById(id).get();
 	}
 
-/*	private String getBook() {
+	private String getBook() {
 		return SecurityContextHolder.getContext().getAuthentication().getName();
-	}*/
+	}
 
 
 	@DeleteMapping(path = "/{id}") 
@@ -112,6 +116,8 @@ public class BookRestController {
 		//return bookDAO.findAllSearchAllFields(search.getSearch());
 		return bookRepository.findAllSearchAllFieldsFindPartial(search.getSearch(),search.getBegin(),search.getLength());
 	}
+	
+
 	}
 
 
