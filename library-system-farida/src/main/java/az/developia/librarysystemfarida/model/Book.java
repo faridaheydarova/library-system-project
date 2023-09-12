@@ -41,6 +41,17 @@ public class Book {
 	@Min(value=0,message="Minimum 0 yazmaq olar")
 	@Max(value=10000,message="Maksimum 10000 yazmaq olar")
 	private Integer pageCount;
+	
+	private String librarian;
+	
+	
+	
+	public String getLibrarian() {
+		return librarian;
+	}
+	public void setLibrarian(String librarian) {
+		this.librarian = librarian;
+	}
 	public Integer getId() {
 		return id;
 	}

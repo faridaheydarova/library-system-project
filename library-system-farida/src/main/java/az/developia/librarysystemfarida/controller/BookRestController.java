@@ -47,7 +47,8 @@ public class BookRestController {
 	
 	@GetMapping
 	public List<Book> findAll() {
-		return bookRepository.findAll();
+
+		return bookRepository.findAllByLibrarian(getUser());
 	}
 	
 	
@@ -62,18 +63,21 @@ public class BookRestController {
 			book.setName("Daha öncə bu adla kitab qeydə alınıb!");
 			return book;
 		} else {
-	
+			
+			String librarian=SecurityContextHolder.getContext().getAuthentication().getName();
+			book.setLibrarian(getUser());
 			return bookRepository.save(book);
 		}
+		
+	}
+	
+	private String getUser() {
+		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
 
 	@GetMapping(path = "/{id}")
 	public Book findById(@PathVariable(name = "id") Integer id) {
 		return bookRepository.findById(id).get();
-	}
-
-	private String getBook() {
-		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
 
 

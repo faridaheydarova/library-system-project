@@ -20,6 +20,8 @@ Optional<Book> findByName(String string);
 @Query(value = "SELECT * FROM books WHERE name LIKE %?1%", nativeQuery = true)
 public List<Book> findAllSearch(String search);
 
+List<Book> findAllByLibrarian(String librarian);
+
 
 /*@Query(value = "SELECT * FROM books WHERE price LIKE %:search% OR page_count LIKE %:search%", nativeQuery = true)
 public List<Book> findAllSearch1(@Param("search") Integer search);
