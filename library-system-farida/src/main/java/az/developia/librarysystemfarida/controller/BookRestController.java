@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
-
+import az.developia.librarysystemfarida.config.MySession;
 import az.developia.librarysystemfarida.exception.MyRuntimeException;
 
 import az.developia.librarysystemfarida.model.Book;
@@ -45,6 +45,9 @@ public class BookRestController {
 	
 	private final BookService bookService;
 	
+	@Autowired
+	private MySession mySession;
+	
 	@GetMapping
 	public List<Book> findAll() {
 
@@ -52,7 +55,7 @@ public class BookRestController {
 	}
 	
 	
-	@PreAuthorize("hasRole('ROLE_LIBRARIAN')")
+	
 	@PostMapping(path = "/save")
 	public Book addBook(@Valid @RequestBody Book book, BindingResult result) {
 		if(result.hasErrors()) {
@@ -64,8 +67,16 @@ public class BookRestController {
 			return book;
 		} else {
 			
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			System.out.println(username);
+			if(username.equals("anonymousUser")) {
+
+			} else {
+				 mySession.setUsername(username);
+			}
 			String librarian=SecurityContextHolder.getContext().getAuthentication().getName();
 			book.setLibrarian(getUser());
+		
 			return bookRepository.save(book);
 		}
 		

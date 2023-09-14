@@ -25,6 +25,7 @@ import az.developia.librarysystemfarida.dto.LoginDTO;
 import az.developia.librarysystemfarida.dto.StudentDTO;
 import az.developia.librarysystemfarida.dto.UserDTO;
 import az.developia.librarysystemfarida.exception.MyRuntimeException;
+import az.developia.librarysystemfarida.model.Book;
 import az.developia.librarysystemfarida.model.SearchModel;
 import az.developia.librarysystemfarida.model.Student;
 import az.developia.librarysystemfarida.repository.StudentRepo;
@@ -55,10 +56,11 @@ public class StudentRestController {
 		String librarian=SecurityContextHolder.getContext().getAuthentication().getName();
 	
 		
-		studentDTO.setEmail(getUser());
+		studentDTO.setLibrarian(getUser());
 	String id = studentService.addStudent(studentDTO);
 	return id;
 	}
+
 
 	@PostMapping(path="/login")
 	public ResponseEntity<?> loginStudent(@RequestBody LoginDTO loginDTO){
@@ -67,10 +69,10 @@ public class StudentRestController {
 
 	}
 	
-	@GetMapping(path="/{id}")
+	@GetMapping
 	public List<Student> findAll(){
 		
-		return studentRepo.findAll();
+		return studentRepo.findAllByLibrarian(getUser());
 		
 	}
 	
