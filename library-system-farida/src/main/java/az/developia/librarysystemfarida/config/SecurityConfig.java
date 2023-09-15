@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http
 	    .authorizeRequests()
-	        .antMatchers("/save").hasRole("LIBRARIAN")
+	        .antMatchers("/save").hasAnyRole("LIBRARIAN", "STUDENT")
 	        .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 	        .antMatchers(HttpMethod.POST, "/users/**").permitAll()
 	        .antMatchers(HttpMethod.GET, "/users/**").permitAll()
@@ -46,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers(HttpMethod.POST, "/books/**").permitAll()
 	        .antMatchers(HttpMethod.DELETE, "/books/**").permitAll()
 	        .antMatchers(HttpMethod.PUT, "/books/**").permitAll()
+	        .antMatchers(HttpMethod.POST, "/loan/**").permitAll()
 	        .anyRequest().authenticated()
 	        .and()
 	    .formLogin()

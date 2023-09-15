@@ -43,4 +43,6 @@ public interface StudentService {
 	List<Student> findAllSearchAllFields(String search);
 
 	void deleteById(Integer id);
+
+	boolean checkStudentExists(Long studentId);
 }

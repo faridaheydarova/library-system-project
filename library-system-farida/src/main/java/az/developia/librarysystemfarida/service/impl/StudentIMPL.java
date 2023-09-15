@@ -113,6 +113,12 @@ public class StudentIMPL  implements StudentService{
 		return false;
 	}
 
+	@Override
+	public boolean checkStudentExists(Long studentId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	
 	
 

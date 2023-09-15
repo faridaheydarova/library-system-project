@@ -3,11 +3,13 @@ package az.developia.librarysystemfarida.controller;
 import java.util.List;    
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,13 +23,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import az.developia.librarysystemfarida.config.MySession;
 import az.developia.librarysystemfarida.dto.LoginDTO;
 import az.developia.librarysystemfarida.dto.StudentDTO;
 import az.developia.librarysystemfarida.dto.UserDTO;
 import az.developia.librarysystemfarida.exception.MyRuntimeException;
+import az.developia.librarysystemfarida.model.Authority;
 import az.developia.librarysystemfarida.model.Book;
 import az.developia.librarysystemfarida.model.SearchModel;
 import az.developia.librarysystemfarida.model.Student;
+import az.developia.librarysystemfarida.repository.AuthorityRepository;
 import az.developia.librarysystemfarida.repository.StudentRepo;
 
 import az.developia.librarysystemfarida.response.LoginResponse;
@@ -41,6 +46,8 @@ import az.developia.librarysystemfarida.service.UserService;
 public class StudentRestController {
 	
 	
+	@Autowired
+	private MySession mySession;
 	
 	@Autowired
 	private StudentService studentService;
@@ -48,16 +55,34 @@ public class StudentRestController {
 	@Autowired
 	private StudentRepo studentRepo;
 	
+	@Autowired
+	private AuthorityRepository authorityRepository;
+	
+	
+	@PreAuthorize("hasRole('STUDENT')")
 	@PostMapping(path = "/save")
-	public String saveStudent(@Valid @RequestBody StudentDTO studentDTO, BindingResult result){ 
+	public String saveStudent(@Valid @RequestBody StudentDTO studentDTO, BindingResult result, HttpServletRequest request){ 
 		if(result.hasErrors()) {
 			throw new MyRuntimeException(result);
 		}
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		System.out.println(username);
+		if(username.equals("anonymousUser")) {
+
+		} else {
+			 mySession.setUsername(username);
+		}
 		String librarian=SecurityContextHolder.getContext().getAuthentication().getName();
-	
-		
 		studentDTO.setLibrarian(getUser());
 	String id = studentService.addStudent(studentDTO);
+	
+
+	Authority authority=new Authority();
+	authority.setUsername(studentDTO.getName());
+	authority.setAuthority("student");
+	authorityRepository.save(authority);
+	request.getSession().invalidate();
+	
 	return id;
 	}
 

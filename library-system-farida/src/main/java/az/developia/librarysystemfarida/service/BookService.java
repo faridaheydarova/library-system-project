@@ -23,4 +23,9 @@ public class BookService {
     public Optional<Book> bookSearch(String book) {
         return bookRepository.findByName(book);
     }
+
+	public boolean checkBookExists(Long bookId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
