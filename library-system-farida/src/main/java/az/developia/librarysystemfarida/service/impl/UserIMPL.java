@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import az.developia.librarysystemfarida.dto.LoginDTO;
 import az.developia.librarysystemfarida.dto.UserDTO;
+import az.developia.librarysystemfarida.model.Student;
 import az.developia.librarysystemfarida.model.User;
 import az.developia.librarysystemfarida.repository.UserRepo;
 import az.developia.librarysystemfarida.response.LoginResponse;
@@ -17,6 +18,7 @@ import az.developia.librarysystemfarida.service.UserService;
 @Service
 public class UserIMPL  implements UserService{
 	
+
 	@Autowired
 	private UserRepo userRepo;
 	
@@ -83,6 +85,14 @@ public class UserIMPL  implements UserService{
 	public List<User> findAll() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+
+	@Override
+	public boolean isUserInRole(Student studentId, String string) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
 

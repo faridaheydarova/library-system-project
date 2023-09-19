@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers(HttpMethod.POST, "/books/**").permitAll()
 	        .antMatchers(HttpMethod.DELETE, "/books/**").permitAll()
 	        .antMatchers(HttpMethod.PUT, "/books/**").permitAll()
-	        .antMatchers(HttpMethod.POST, "/loan/**").permitAll()
+	        .antMatchers(HttpMethod.GET, "/borrowed-books/**").permitAll()
 	        .anyRequest().authenticated()
 	        .and()
 	    .formLogin()

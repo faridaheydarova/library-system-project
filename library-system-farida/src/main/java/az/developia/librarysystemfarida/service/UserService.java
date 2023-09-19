@@ -48,6 +48,7 @@ import java.util.List;
 
 import az.developia.librarysystemfarida.dto.LoginDTO;
 import az.developia.librarysystemfarida.dto.UserDTO;
+import az.developia.librarysystemfarida.model.Student;
 import az.developia.librarysystemfarida.model.User;
 import az.developia.librarysystemfarida.response.LoginResponse;
 
@@ -58,5 +59,9 @@ public interface UserService {
 	LoginResponse loginUser(LoginDTO loginDTO);
 
 	List<User> findAll();
+
+	boolean isUserInRole(Student studentId, String string);
+
+
 
 }

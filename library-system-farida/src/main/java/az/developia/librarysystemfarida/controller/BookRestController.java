@@ -1,6 +1,6 @@
 package az.developia.librarysystemfarida.controller;
 
-import java.util.List;   
+import java.util.List;    
 
 
 
@@ -10,6 +10,7 @@ import javax.validation.Valid;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,8 +32,10 @@ import az.developia.librarysystemfarida.exception.MyRuntimeException;
 
 import az.developia.librarysystemfarida.model.Book;
 import az.developia.librarysystemfarida.model.SearchModel;
+import az.developia.librarysystemfarida.model.Student;
 import az.developia.librarysystemfarida.repository.BookRepository;
 import az.developia.librarysystemfarida.service.BookService;
+import az.developia.librarysystemfarida.service.UserService;
 
 @RestController
 @RequestMapping(path = "/books")
@@ -44,6 +47,10 @@ public class BookRestController {
 	
 	
 	private final BookService bookService;
+
+
+	    @Autowired
+	    private UserService userService;
 	
 	@Autowired
 	private MySession mySession;
@@ -133,7 +140,27 @@ public class BookRestController {
 	}
 	
 
-	}
+	 
+
+	    @PostMapping("/borrow/{bookId}/{studentId}")
+	    public ResponseEntity<String> borrowBook(@PathVariable Book bookId, @PathVariable Student studentId) {
+	    
+	        boolean isStudent = userService.isUserInRole(studentId, "STUDENT");
+	        if (!isStudent) {
+	            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Only students can borrow books.");
+	        }
+
+	        boolean isSuccess = bookService.borrowBook(bookId, studentId);
+	        if (isSuccess) {
+	            return ResponseEntity.ok("Book borrowed successfully.");
+	        } else {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Book could not be borrowed.");
+	        }
+	    }
+}
+
+
+	
 
 
 

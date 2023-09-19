@@ -8,7 +8,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import org.springframework.stereotype.Component;
 
+@Component
 @Entity
 @Table(name="students")
 public class Student {
