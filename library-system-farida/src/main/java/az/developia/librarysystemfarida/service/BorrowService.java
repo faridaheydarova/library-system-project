@@ -26,21 +26,18 @@ public class BorrowService {
     }
     
     public void borrowBook(Integer bookId, Integer studentId) {
-        // Kitabı ödünç verme işlemini gerçekleştirin
-        // Ödünç verilen kitap kaydını oluşturun ve kaydedin
         Borrow record = new Borrow();
         record.setBook(bookId);
         record.setStudentId(studentId);
-        record.setBorrowDate(new Date(0, 0, 0)); // Ödünç verme tarihini kaydedin
+        record.setBorrowDate(new Date(0, 0, 0)); 
         borrowRepository.save(record);
     }
 
     public void returnBook(	Book bookId, Student studentId) {
-        // Kitabı iade işlemini gerçekleştirin
-        // Ödünç verilen kitap kaydını güncelleyin ve iade tarihini kaydedin
+
         Optional<Borrow> record = borrowRepository.findByBookIdAndStudentId(bookId, studentId);
         if (record.isPresent()) {
-            record.get().setReturnDate(new Date(0, 0, 0)); // İade tarihini kaydedin
+            record.get().setReturnDate(new Date(0, 0, 0)); 
             borrowRepository.save(record.get());
         }
     }

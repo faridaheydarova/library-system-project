@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;  
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,6 +45,7 @@ public class UserController {
 	@Autowired
 	private AuthorityRepository authorityRepository;
 	
+
 	
 	@PreAuthorize("hasRole('LIBRARIAN')")
 	@PostMapping(path = "/save")
@@ -55,13 +57,15 @@ public class UserController {
 	
 	Authority authority=new Authority();
 	authority.setUsername(userDTO.getUsername());
-	authority.setAuthority("librarian");
+	authority.setAuthority("LIBRARIAN");
 	authorityRepository.save(authority);
 	request.getSession().invalidate();
 	
 	return id;
 
 	}
+	
+	
 
 
 

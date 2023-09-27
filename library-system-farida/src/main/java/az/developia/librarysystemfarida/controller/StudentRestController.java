@@ -64,26 +64,22 @@ public class StudentRestController {
 	public String saveStudent(@Valid @RequestBody StudentDTO studentDTO, BindingResult result, HttpServletRequest request){ 
 		if(result.hasErrors()) {
 			throw new MyRuntimeException(result);
-		}
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		System.out.println(username);
-		if(username.equals("anonymousUser")) {
-
-		} else {
-			 mySession.setUsername(username);
-		}
+		} 
+		
 		String librarian=SecurityContextHolder.getContext().getAuthentication().getName();
 		studentDTO.setLibrarian(getUser());
-	String id = studentService.addStudent(studentDTO);
-	
 
+	
+		
 	Authority authority=new Authority();
 	authority.setUsername(studentDTO.getName());
-	authority.setAuthority("student");
+	authority.setAuthority("STUDENT");
 	authorityRepository.save(authority);
 	request.getSession().invalidate();
 	
-	return id;
+	return studentService.addStudent(studentDTO);
+	
+		
 	}
 
 

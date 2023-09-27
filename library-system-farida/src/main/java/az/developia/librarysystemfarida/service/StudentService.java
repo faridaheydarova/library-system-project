@@ -20,14 +20,19 @@ public class StudentService {
 
 package az.developia.librarysystemfarida.service;
 
-import java.util.List;
+import java.util.List; 
+
+
 
 import az.developia.librarysystemfarida.dto.LoginDTO;
 import az.developia.librarysystemfarida.dto.StudentDTO;
 import az.developia.librarysystemfarida.model.Student;
+
 import az.developia.librarysystemfarida.response.LoginResponse;
 
 public interface StudentService {
+	
+	
 
 	String addStudent(StudentDTO studentDTO);
 
@@ -45,4 +50,10 @@ public interface StudentService {
 	void deleteById(Integer id);
 
 	boolean checkStudentExists(Long studentId);
+	
+
+	static boolean isStudentInRole(Integer studentId, String string) {
+	
+		return false;
+	}
 }

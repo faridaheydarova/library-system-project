@@ -39,6 +39,7 @@ public class UserIMPL  implements UserService{
 		user.setId(userDTO.getId());
 		user.setUsername(userDTO.getUsername());
 		user.setEmail(userDTO.getEmail());
+		
 
 		String encryptedPassword = this.passwordEncoder.encode(userDTO.getPassword());
 		user.setPassword(encryptedPassword);
@@ -83,15 +84,15 @@ public class UserIMPL  implements UserService{
 
 	@Override
 	public List<User> findAll() {
-		// TODO Auto-generated method stub
+	
 		return null;
 	}
 
 
 
 	@Override
-	public boolean isUserInRole(Student studentId, String string) {
-		// TODO Auto-generated method stub
+	public boolean isUserInRole(Integer studentId, String string) {
+	
 		return false;
 	}
 }

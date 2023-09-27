@@ -60,7 +60,7 @@ public interface UserService {
 
 	List<User> findAll();
 
-	boolean isUserInRole(Student studentId, String string);
+	boolean isUserInRole(Integer studentId, String string);
 
 
 

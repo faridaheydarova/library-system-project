@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -21,6 +22,7 @@ private Integer id;
 private String username;
 private String email;
 private String password;
+
 
 
 
@@ -65,6 +67,7 @@ public User(Integer id, String username, String email, String password) {
 public User() {
 	
 }
+
 
 @Override
 public String toString() {

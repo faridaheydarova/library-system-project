@@ -42,6 +42,7 @@ public class StudentIMPL  implements StudentService{
 		student.setId(studentDTO.getId());
 		student.setName(studentDTO.getName());
 		student.setEmail(studentDTO.getEmail());
+		student.setLibrarian(studentDTO.getLibrarian());
 
 		String encryptedPassword = this.passwordEncoder.encode(studentDTO.getPassword());
 		student.setPassword(encryptedPassword);
@@ -103,19 +104,19 @@ public class StudentIMPL  implements StudentService{
 
 	@Override
 	public List<Student> findAllSearchAllFields(String search) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 	
 	@Override
 	public boolean existsById(Integer id) {
-	    // Kodunuzu buraya ekleyin
+	  
 		return false;
 	}
 
 	@Override
 	public boolean checkStudentExists(Long studentId) {
-		// TODO Auto-generated method stub
+	
 		return false;
 	}
 

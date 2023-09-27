@@ -26,12 +26,12 @@ public class BookService {
     }
 
 	public boolean checkBookExists(Integer bookId) {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
-	public boolean borrowBook(Book bookId, Student studentId) {
-		// TODO Auto-generated method stub
+	public boolean borrowBook(Integer bookId, Integer studentId) {
+	
 		return false;
 	}
 }

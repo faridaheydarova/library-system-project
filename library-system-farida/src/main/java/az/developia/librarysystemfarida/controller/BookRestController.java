@@ -35,6 +35,7 @@ import az.developia.librarysystemfarida.model.SearchModel;
 import az.developia.librarysystemfarida.model.Student;
 import az.developia.librarysystemfarida.repository.BookRepository;
 import az.developia.librarysystemfarida.service.BookService;
+import az.developia.librarysystemfarida.service.StudentService;
 import az.developia.librarysystemfarida.service.UserService;
 
 @RestController
@@ -134,8 +135,7 @@ public class BookRestController {
 	}
 	@PostMapping(path="/search-find-partial")
 	public List<Book> findAllSearchFindPartial(@RequestBody SearchModel search ) {
-		//return bookDAO.findAllSearch(search.getSearch());
-		//return bookDAO.findAllSearchAllFields(search.getSearch());
+		
 		return bookRepository.findAllSearchAllFieldsFindPartial(search.getSearch(),search.getBegin(),search.getLength());
 	}
 	
@@ -143,18 +143,18 @@ public class BookRestController {
 	 
 
 	    @PostMapping("/borrow/{bookId}/{studentId}")
-	    public ResponseEntity<String> borrowBook(@PathVariable Book bookId, @PathVariable Student studentId) {
+	    public ResponseEntity<String> borrowBook(@PathVariable Integer bookId, @PathVariable Integer studentId) {
 	    
-	        boolean isStudent = userService.isUserInRole(studentId, "STUDENT");
-	        if (!isStudent) {
-	            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Only students can borrow books.");
-	        }
+	        boolean isStudent = StudentService.isStudentInRole(studentId, "STUDENT");
+	       if (!isStudent) {
+	           return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Yanlız tələbələr kitab təhvil ala bilər.");
+	      }
 
 	        boolean isSuccess = bookService.borrowBook(bookId, studentId);
 	        if (isSuccess) {
-	            return ResponseEntity.ok("Book borrowed successfully.");
+	            return ResponseEntity.ok("Kitab uğurla təhvil verildi.");
 	        } else {
-	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Book could not be borrowed.");
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Təhvil zamanı xəta mövcuddur.");
 	        }
 	    }
 }

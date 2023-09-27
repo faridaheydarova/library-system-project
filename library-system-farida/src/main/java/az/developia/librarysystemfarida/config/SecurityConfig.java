@@ -12,9 +12,12 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import az.developia.librarysystemfarida.service.UserService;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -29,12 +32,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private DataSource dataSource;
 
 
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http
 	    .authorizeRequests()
-	        .antMatchers("/save").hasAnyRole("LIBRARIAN", "STUDENT")
+
+	       
+	    .antMatchers("/save").hasAnyRole("LIBRARIAN", "STUDENT")
 	        .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 	        .antMatchers(HttpMethod.POST, "/users/**").permitAll()
 	        .antMatchers(HttpMethod.GET, "/users/**").permitAll()
@@ -47,71 +53,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers(HttpMethod.DELETE, "/books/**").permitAll()
 	        .antMatchers(HttpMethod.PUT, "/books/**").permitAll()
 	        .antMatchers(HttpMethod.GET, "/borrowed-books/**").permitAll()
-	        .anyRequest().authenticated()
+	        .antMatchers("/h2-console/**").permitAll()
+	        .anyRequest().authenticated().and().httpBasic();
+	        http.headers().frameOptions().disable()
 	        .and()
 	    .formLogin()
-	        .loginPage("/login") // Kullanıcı giriş yapmak istediğinde yönlendirileceği sayfa
-	        .permitAll() // Herkesin bu sayfaya erişim izni
+	      
+	        .permitAll() 
 	        .and()
 	    .logout()
-	        .logoutSuccessUrl("/login?logout") // Çıkış başarılı olduğunda yönlendirileceği sayfa
-	        .permitAll() // Herkesin çıkış yapmasına izin ver
+	      
+	        .permitAll() 
 	        .and()
 	    .csrf().disable();
 
 	}
-		/*http.csrf().disable().authorizeRequests()
-		.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-		.antMatchers(HttpMethod.POST, "/users/**").permitAll()
-		.antMatchers(HttpMethod.GET, "/users/**").permitAll()
-		.antMatchers(HttpMethod.POST, "/students/**").permitAll()
-	
-		.antMatchers(HttpMethod.GET, "/students/**").permitAll()
-		.antMatchers(HttpMethod.DELETE, "/students/**").permitAll()
-		.antMatchers(HttpMethod.PUT, "/students/**").permitAll()
-		 
-		.antMatchers(HttpMethod.GET, "/books/**").permitAll()
-		.antMatchers(HttpMethod.POST, "/books/**").permitAll()
-		.antMatchers(HttpMethod.DELETE, "/books/**").permitAll()
-		.antMatchers(HttpMethod.PUT, "/books/**").permitAll()
-		
-		.anyRequest().authenticated().and().httpBasic(); 
-		/*and()
-        .formLogin()
-            .loginPage("/login") // Kullanıcı giriş yapmak istediğinde yönlendirileceği sayfa
-            .permitAll() // Herkesin bu sayfaya erişim izni
-            .and()
-        .logout()
-            .logoutSuccessUrl("/login?logout") // Çıkış başarılı olduğunda yönlendirileceği sayfa
-            .permitAll() // Herkesin çıkış yapmasına izin ver
-            .and()
-        .csrf().disable();
-	http
-	    .authorizeRequests()
-	        .antMatchers("/save").hasRole("LIBRARIAN")
-	        // Diğer izinler ve ayarlar
-	        .and()
-	    .formLogin()
-	    .loginPage("/login") // Kullanıcı giriş yapmak istediğinde yönlendirileceği sayfa
-        .permitAll() // Herkesin bu sayfaya erişim izni
-	        .and()
-	    .logout()
-	    .logoutSuccessUrl("/login?logout") // Çıkış başarılı olduğunda yönlendirileceği sayfa
-        .permitAll() // Herkesin çıkış yapmasına izin ver
-	        .and()
+		private ExpressionUrlAuthorizationConfigurer<HttpSecurity>.AuthorizedUrl anyRequest() {
 
-	        .csrf().disable();
-    
-		http.headers().frameOptions().disable();
-	}
-
-
-	private HttpSecurity and() {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
-*/
+	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
